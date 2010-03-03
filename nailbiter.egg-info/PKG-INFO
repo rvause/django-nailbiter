@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: nailbiter
+Version: 1698c10c6eb8f3321f7825ac894fb2f4dbf6a1bf
+Summary: thumbnail generation modeled after sorl-thumbnail, plays nice with storage backends
+Home-page: http://github.com/blackbrrr/django-nailbiter
+Author: Matt Dennewitz (blackbrrr)
+Author-email: mattdennewitz@gmail.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
