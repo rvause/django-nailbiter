@@ -1,14 +1,22 @@
-#!/usr/bin/env python
-
-from distutils.core import setup
-
+from setuptools import setup, find_packages
+ 
 setup(
     name='nailbiter',
-    version='1698c10c6eb8f3321f7825ac894fb2f4dbf6a1bf',
+    version=__import__('nailbiter').__version__,
     description='thumbnail generation modeled after sorl-thumbnail, plays nice with storage backends',
-    author='Matt Dennewitz (blackbrrr)',
-    author_email='mattdennewitz@gmail.com',
-    url='',
-    packages = ['nailbiter',],
-    package_dir = {'nailbiter':'nailbiter'},
+    author='Luke Hutscal',
+    author_email='luke@creaturecreative.com',
+    url='http://github.com/girasquid/django-nailbiter/',
+    packages=find_packages(),
+    classifiers=[
+        'Development Status :: 3 - Alpha',
+        'Environment :: Web Environment',
+        'Intended Audience :: Developers',
+        'License :: OSI Approved :: MIT License',
+        'Operating System :: OS Independent',
+        'Programming Language :: Python',
+        'Framework :: Django',
+    ],
+    include_package_data=True,
+    zip_safe=False,
 )
