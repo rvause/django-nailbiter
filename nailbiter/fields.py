@@ -154,13 +154,17 @@ class ImageWithThumbsFieldFile(ImageFieldFile):
 
     def delete(self, save=True):
         name = self.name
+
+        if save and not self.field.delete_default:
+            if self.field.default and name == self.field.default:
+                return
+
         super(ImageWithThumbsFieldFile, self).delete(save)
 
         for thumbnail in self.thumbnails_to_generate:
             filename = self.generate_thumbnail_name(name,
                                                     thumbnail['name'],
                                                     thumbnail['size'])
-
             try:
                 self.storage.delete(filename)
             except:
@@ -171,7 +175,7 @@ class ImageWithThumbsField(ImageField):
     attr_class = ImageWithThumbsFieldFile
 
     def __init__(self, verbose_name=None, name=None, 
-        width_field=None, height_field=None, 
+        width_field=None, height_field=None, delete_default=True,
         generate_on_save=True, thumbnail={}, extra_thumbnails=[], filters=[], 
         **kwargs):
 
@@ -186,5 +190,8 @@ class ImageWithThumbsField(ImageField):
         self.thumbnail = thumbnail
         self.extra_thumbnails = extra_thumbnails
         self.filters = filters
+
+        # Controls whether specified default image is deleted or not on update.
+        self.delete_default = delete_default
 
         super(ImageField, self).__init__(**kwargs)
