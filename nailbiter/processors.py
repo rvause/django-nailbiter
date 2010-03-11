@@ -1,5 +1,5 @@
 """
-Taken from sorl-thumbnail
+Taken from sorl-thumbnail.
 """
 
 from PIL import Image, ImageFilter, ImageChops
@@ -74,10 +74,12 @@ scale_and_crop.valid_options = ('crop', 'upscale', 'max')
 def detail(im, requested_size, opts):
     im = im.filter(ImageFilter.DETAIL)
     return im
-    
+
+
 def sharpen(im, requested_size, opts):
     im = im.filter(ImageFilter.SHARPEN)
     return im
+
 
 def filters(im, requested_size, opts):
     if 'detail' in opts:

@@ -1,8 +1,8 @@
 """
-Defaults for nailbiter app
+Defaults for nailbiter app.
 """
 
-# define image processors
+# Defines image processors.
 PROCESSORS = (
     'nailbiter.processors.colorspace',
     'nailbiter.processors.autocrop',
