@@ -11,10 +11,10 @@ def generate_thumbnail(img, size, options):
     """
     Generates a thumbnail image and returns a ContentFile object with the
     thumbnail.
-    
+
     `img`: `PIL.Image` object
     `thumb`: thumbnail dimensions as tuple
-    `format`: source image's format (eg, `jpeg`, `gif`, `png`). 
+    `format`: source image's format (eg, `jpeg`, `gif`, `png`).
               thumbnails will preserve this type.
     """
     # from nailbiter import processors
@@ -45,10 +45,10 @@ def generate_thumbnail(img, size, options):
         format = image.format
 
     image.save(io, format)
-    return ContentFile(io.getvalue())    
+    return ContentFile(io.getvalue())
 
 
-class NailbiterThumbnail(object):    
+class NailbiterThumbnail(object):
     def __init__(self, name, height, width, url):
         self.name = name
         self.height = height
@@ -59,10 +59,10 @@ class NailbiterThumbnail(object):
 class ImageWithThumbsFieldFile(ImageFieldFile):
     """``ImageFieldFile`` implementation offering compatibility with
     custom storage backends, and allowing multiple thumbnail definitions.
-    
+
     On load, store a list of all thumbnails, and add properties
     for each thumbnail to return a ``NailbiterThumbnail`` object.
-    
+
     """
 
     def __init__(self, *args, **kwargs):
@@ -72,7 +72,7 @@ class ImageWithThumbsFieldFile(ImageFieldFile):
         # queue `thumbnail` option
         if self.field.thumbnail:
             self.thumbnails_to_generate.append({
-                'name': "thumbnail", 
+                'name': "thumbnail",
                 'options': self.field.thumbnail.get('options', []),
                 'size': self.field.thumbnail['size']})
 
@@ -86,7 +86,7 @@ class ImageWithThumbsFieldFile(ImageFieldFile):
                         self.field.thumbnail['size']))
                     )
 
-        # queue `extra_thumbnails` 
+        # queue `extra_thumbnails`
         if self.field.extra_thumbnails:
             setattr(self, "extra_thumbnails", {})
 
@@ -119,19 +119,13 @@ class ImageWithThumbsFieldFile(ImageFieldFile):
         return thumbnail_full_path
 
     def _generate_thumbnail_url(self, thumb_name, size):
-        from urlparse import urlparse
-
-        _url = self.url
-        _name = self.name
-        urlbits = urlparse(self.url)
         filename = self.generate_thumbnail_name(self.name, thumb_name, size)
-        thumbnail_url = "%s://%s/%s" % (urlbits[0], urlbits[1], filename)
 
-        return thumbnail_url
+        return filename
 
     def save(self, name, content, save=True):
         """
-        Save the field's data, and generate thumbnails 
+        Save the field's data, and generate thumbnails
         from `self.thumbnails_to_generate`
         """
         # save field data
@@ -145,8 +139,8 @@ class ImageWithThumbsFieldFile(ImageFieldFile):
 
             # generate the thumbnail
             thumbnail_data = generate_thumbnail(
-                content, 
-                thumbnail['size'], 
+                content,
+                thumbnail['size'],
                 thumbnail['options'])
 
             # store thumbnail data
@@ -174,9 +168,9 @@ class ImageWithThumbsFieldFile(ImageFieldFile):
 class ImageWithThumbsField(ImageField):
     attr_class = ImageWithThumbsFieldFile
 
-    def __init__(self, verbose_name=None, name=None, 
+    def __init__(self, verbose_name=None, name=None,
         width_field=None, height_field=None, delete_default=True,
-        generate_on_save=True, thumbnail={}, extra_thumbnails=[], filters=[], 
+        generate_on_save=True, thumbnail={}, extra_thumbnails=[], filters=[],
         **kwargs):
 
         self.verbose_name=verbose_name
