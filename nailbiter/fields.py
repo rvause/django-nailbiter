@@ -189,3 +189,26 @@ class ImageWithThumbsField(ImageField):
         self.delete_default = delete_default
 
         super(ImageField, self).__init__(**kwargs)
+
+
+try:
+    from south.modelsinspector import add_introspection_rules
+    add_introspection_rules([
+        (
+            [ImageWithThumbsField],
+            [],
+            {
+                'verbose_name': ['verbose_name', {'default': None}],
+                'name': ['name', {'default': None}],
+                'width_field': ['width_field', {'default': None}],
+                'height_field': ['height_field', {'default': None}],
+                'delete_default': ['delete_default', {'default': None}],
+                'generate_on_save': ['generate_on_save', {'default': True}],
+                'thumbnail': ['thumbnail', {'default': {}}],
+                'extra_thumbnails': ['extra_thumbnails', {'default': []}],
+                'filters': ['filters', {'default': []}],
+            }
+        )
+    ], ['^nailbiter\.fields\.ImageWithThumbsField'])
+except ImportError:
+    pass
