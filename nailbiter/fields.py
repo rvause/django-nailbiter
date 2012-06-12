@@ -7,7 +7,7 @@ from django.db.models.fields.files import ImageFieldFile
 from django.core.files.base import ContentFile
 
 
-def generate_thumbnail(img, size, options):
+def generate_thumbnail(img, size, options, quality):
     """
     Generates a thumbnail image and returns a ContentFile object with the
     thumbnail.
@@ -44,7 +44,7 @@ def generate_thumbnail(img, size, options):
     else:
         format = image.format
 
-    image.save(io, format)
+    image.save(io, format, quality=quality)
     return ContentFile(io.getvalue())
 
 
@@ -141,7 +141,8 @@ class ImageWithThumbsFieldFile(ImageFieldFile):
             thumbnail_data = generate_thumbnail(
                 content,
                 thumbnail['size'],
-                thumbnail['options'])
+                thumbnail['options'],
+                thumbnail.get('quality', 90))
 
             # store thumbnail data
             stored_filename = self.storage.save(filename, thumbnail_data)
